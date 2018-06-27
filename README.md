@@ -1,5 +1,5 @@
 # SnakeV
-基于Swing ArrayList和二维数组的贪吃蛇实现
+基于JAVA的Swing ArrayList和二维数组的贪吃蛇简单实现
 
 使用说明:
 - 执行main后按大写D开始
