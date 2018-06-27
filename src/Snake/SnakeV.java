@@ -59,10 +59,11 @@ public class SnakeV extends JPanel {
             }
         });
 
-        //开一个线程来处理自动行走
+        //开一个线程来处理自动往前行走
         new Thread(() -> {
             while (true) {
                 mvShape.keyTyped(mvShape.keyChar, point, mvShape, food);
+                //游戏结束判定
                 if (mvShape.testOver(point))
                     mvShape.gameOver(mvShape.getGraphics(), point, food);
                 try {
@@ -78,6 +79,8 @@ public class SnakeV extends JPanel {
 
     /**
      * @Description: keyTyped
+     * 监听键盘输入的字符
+     * W S A D 分别控制上下左右
      */
     private void keyTyped(char e, Point point, SnakeV mvShape, Point food) {
         if (!(e == 'W' || e == 'A' ||
@@ -97,6 +100,7 @@ public class SnakeV extends JPanel {
                 break;
             default:
         }
+        //返回boolean判定是否吃到食物来决定胜负生成新的食物
         boolean control = mvShape.control(point.x, point.y, food.x, food.y);
         if (control) {
             food.x = r.nextInt(mvShape.wid);
@@ -193,8 +197,10 @@ public class SnakeV extends JPanel {
 
     private boolean testOver(Point point) {
         boolean over;
+        //判定是否移动到边界
         over = point.x < 0 || point.x == this.wid ||
                 point.y < 0 || point.y == this.hei;
+        //判定蛇头是否接触到身体
         for (int i = pointList.size() - 2; i > 0; i--) {
             Point p = pointList.get(i);
             if (p.x == point.x && p.y == point.y) over = true;
