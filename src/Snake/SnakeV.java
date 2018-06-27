@@ -46,8 +46,11 @@ public class SnakeV extends JPanel {
                 mvShape.hei * mvShape.shapeSize + 28);
         jFrame.addKeyListener(new KeyListener() {
             @Override
-            public void keyTyped(KeyEvent e0) {
-                mvShape.keyChar = e0.getKeyChar();
+            public void keyTyped(KeyEvent e) {
+                char e0 = e.getKeyChar();
+                if (!(e0 == 'W' || e0 == 'A' ||
+                        e0 == 'S' || e0 == 'D')) return;
+                mvShape.keyChar = e.getKeyChar();
             }
 
             @Override
@@ -162,7 +165,7 @@ public class SnakeV extends JPanel {
         for (int j = 0; j < hei; j++) {
             for (int i = 0; i < wid; i++) {
                 try {
-                    Thread.sleep(20);
+                    Thread.sleep(10);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -181,7 +184,7 @@ public class SnakeV extends JPanel {
         for (int j = hei - 1; j >= 0; j--) {
             for (int i = 0; i < wid; i++) {
                 try {
-                    Thread.sleep(20);
+                    Thread.sleep(10);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
