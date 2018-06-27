@@ -78,6 +78,7 @@ public class SnakeV extends JPanel {
             }
         }).start();
         jFrame.setVisible(true);
+        System.out.println("Caps lock: W ↑  A ←  S →️  D ↓,  press D start ");
     }
 
     /**
@@ -178,6 +179,7 @@ public class SnakeV extends JPanel {
     //GameOver动画
     private void gameOver(Graphics g, Point point, Point food) {
         System.out.println("Game Over");
+        System.out.println("Game Score: "+count);
         Graphics g0 = g;
         this.keyChar = '0';
         g0.setColor(Color.pink);
