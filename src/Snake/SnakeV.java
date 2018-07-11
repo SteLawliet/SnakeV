@@ -4,9 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.LinkedList;
 import java.util.Random;
 
 import javax.swing.JFrame;
@@ -19,38 +17,40 @@ import javax.swing.JPanel;
  **/
 
 public class SnakeV extends JPanel {
+    public static final int speed = 120;
     private static final Random r = new Random();
-    private final List<Point> pointList;
+    private final LinkedList<Point> pointList;
     private int shapeSize;
     private int wid, hei;
     private int count = 0;
-    private char keyChar;
+    private char keyChar;  //输入的行动指令
 
     private SnakeV(int shapeSize, int wid, int hei) {
         this.shapeSize = shapeSize;
         this.wid = wid;
         this.hei = hei;
-        pointList = new ArrayList<>();
+        pointList = new LinkedList<>();
     }
 
     public static void main(String[] args) {
         JFrame jFrame = new JFrame();
         //shapeSize为方块大小，wid为游戏界面宽，hei为高
-        SnakeV mvShape = new SnakeV(25, 10, 20);
-        Point food = mvShape.new Point(r.nextInt(mvShape.wid), r.nextInt(mvShape.hei));
-        Point point = mvShape.new Point(0, 0);
+        SnakeV snake = new SnakeV(25, 10, 20);
+        Point food = snake.new Point(r.nextInt(snake.wid), r.nextInt(snake.hei));
+        Point point = snake.new Point(0, 0);
         jFrame.setResizable(true);
-        jFrame.getContentPane().add(mvShape);
+        jFrame.getContentPane().add(snake);
         jFrame.setDefaultCloseOperation(3);
-        jFrame.setSize(mvShape.wid * mvShape.shapeSize,
-                mvShape.hei * mvShape.shapeSize + 28);
+        jFrame.setSize(snake.wid * snake.shapeSize,
+                snake.hei * snake.shapeSize + 28);
+
         jFrame.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
                 char e0 = e.getKeyChar();
                 if (!(e0 == 'W' || e0 == 'A' ||
-                        e0 == 'S' || e0 == 'D')) return;
-                mvShape.keyChar = e.getKeyChar();
+                        e0 == 'S' || e0 == 'D' || e0 == 'Q')) return;
+                snake.keyChar = e.getKeyChar();
             }
 
             @Override
@@ -64,14 +64,15 @@ public class SnakeV extends JPanel {
 
         //开一个线程来处理自动往前行走
         new Thread(() -> {
-            while (true) {
-                mvShape.keyTyped(mvShape.keyChar, point, mvShape, food);
+            for (; ; ) {
+                if (snake.keyChar == 'Q') break;
+                snake.keyTyped(snake.keyChar, point, snake, food);
                 //游戏结束判定
-                if (mvShape.testOver(point))
-                    mvShape.gameOver(mvShape.getGraphics(), point, food);
+                if (snake.testOver(point))
+                    snake.gameOver(snake.getGraphics(), point, food);
                 try {
                     //调整蛇前进的速度，即游戏难度
-                    Thread.sleep(120);
+                    Thread.sleep(speed);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -126,12 +127,14 @@ public class SnakeV extends JPanel {
             flag = true;
         }
         //在俩次反转list中添加下次方块移动的位置。来实现往list开头添加新坐标
-        Collections.reverse(pointList);
-        pointList.add(new Point(a, b));
-        Collections.reverse(pointList);
+//        Collections.reverse(pointList);
+//        pointList.add(new Point(a, b));
+//        Collections.reverse(pointList);
+        pointList.addFirst(new Point(a, b));
         //每次移动时减去末尾的方格来向新加的坐标移动
         if (pointList.size() > count + 1) {
-            pointList.remove(pointList.size() - 1);
+//            pointList.remove(pointList.size() - 1);
+            pointList.removeLast();
         }
         //更新蛇的位置，把list所在的坐标都填满
         moveList(getGraphics());
@@ -179,7 +182,7 @@ public class SnakeV extends JPanel {
     //GameOver动画
     private void gameOver(Graphics g, Point point, Point food) {
         System.out.println("Game Over");
-        System.out.println("Game Score: "+count);
+        System.out.println("Game Score: " + count);
         Graphics g0 = g;
         this.keyChar = '0';
         g0.setColor(Color.pink);
@@ -229,8 +232,8 @@ public class SnakeV extends JPanel {
         Point target;
         for (int i = 0; i < wid; i++) {
             for (int j = 0; j < hei; j++) {
-                for (int k = 0; k < pointList.size(); k++) {
-                    target = pointList.get(k);
+                for (Point aPointList : pointList) {
+                    target = aPointList;
                     g.setColor(Color.lightGray);
                     if (i == target.x && j == target.y) {
                         g.fillRect(shapeSize * i, shapeSize * j,
