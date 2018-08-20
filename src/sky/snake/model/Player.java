@@ -11,5 +11,11 @@ public class Player {
     private String score;
     private String ip;
     private String host;
+    private int port;
+    private SnakeBody snake;
+
+
+
+
 
 }

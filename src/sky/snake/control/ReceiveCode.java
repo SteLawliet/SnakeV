@@ -1,5 +1,8 @@
 package sky.snake.control;
 
+
+import sky.snake.model.Player;
+
 /**
  * @program: SnakeV
  * @description: Receive Control Key Code
@@ -8,4 +11,12 @@ package sky.snake.control;
  **/
 public class ReceiveCode {
    private Character keyCode;
+   private Player player;
+
+
+   public static Character getKeyCode(){
+
+       return null;
+   }
+
 }

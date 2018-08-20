@@ -38,6 +38,7 @@ public class SnakeV extends JPanel {
         SnakeV snake = new SnakeV(25, 10, 20);
         Point food = snake.new Point(r.nextInt(snake.wid), r.nextInt(snake.hei));
         Point point = snake.new Point(0, 0);
+
         jFrame.setResizable(true);
         jFrame.getContentPane().add(snake);
         jFrame.setDefaultCloseOperation(3);
@@ -105,6 +106,7 @@ public class SnakeV extends JPanel {
                 break;
             default:
         }
+
         //返回boolean判定是否吃到食物来决定胜负生成新的食物
         boolean control = mvShape.control(point.x, point.y, food.x, food.y);
         if (control) {
