@@ -2,8 +2,8 @@
 基于JAVA的Swing 集合 二维数组 多线程的贪吃蛇简单实现
 
 主要代码实现
-- [java swing](https://github.com/SteLawliet/SnakeV/blob/master/src/Snake/SnakeV.java)
-- [javascript](https://github.com/SteLawliet/SnakeV/blob/master/snakeJs/snake.js)
+- [java swing桌面版](https://github.com/SteLawliet/SnakeV/blob/master/src/Snake/SnakeV.java)
+- [javascript网页版https://github.com/SteLawliet/SnakeV/blob/master/snakeJs/snake.js)
 
 原本是在做二维数组矩阵旋转的算法题时，突发奇想用java的二维数组做个俄罗斯方块。
 
